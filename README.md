@@ -15,7 +15,7 @@ The module is now available on npm! `npm i wwebjs-mongo`
 
 ```js
 const { Client, RemoteAuth } = require('whatsapp-web.js');
-const MongoStore = require('wwebjs-mongo');
+const { MongoStore } = require('wwebjs-mongo');
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
