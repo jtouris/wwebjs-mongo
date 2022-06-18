@@ -23,7 +23,7 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
     const client = new Client({
         authStrategy: new RemoteAuth({
             store: store,
-            backupSyncMs: 180000
+            backupSyncMs: 300000
         })
     });
 
