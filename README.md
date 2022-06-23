@@ -5,6 +5,7 @@ A MongoDB plugin for whatsapp-web.js
 
 * [Guide / Getting Started](https://wwebjs.dev/guide/authentication.html) _(work in progress)_
 * [GitHub](https://github.com/jtourisNS/wwebjs-mongo)
+* [npm](https://www.npmjs.com/package/wwebjs-mongo)
 
 ## Installation
 
