@@ -7,62 +7,46 @@ class MongoStore {
     }
 
     async sessionExists(options) {
-        try {
-            let multiDeviceCollection = this.mongoose.connection.db.collection(`multidevice-${options.session}.files`);
-            let hasExistingSession = await multiDeviceCollection.countDocuments();
-            return !!hasExistingSession;   
-        } catch (error) {
-            console.log('Error on MongoStore: sessionExists => ', error);
-        }
+        let multiDeviceCollection = this.mongoose.connection.db.collection(`multidevice-${options.session}.files`);
+        let hasExistingSession = await multiDeviceCollection.countDocuments();
+        return !!hasExistingSession;   
     }
     
     async save(options) {
-        try {
-            var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
-                bucketName: `multidevice-${options.session}`
-            });
-            return new Promise((resolve, reject) => {
-                fs.createReadStream(`${options.session}.zip`)
-                    .pipe(bucket.openUploadStream(`${options.session}.zip`))
-                    .on('error', err => reject(err))
-                    .on('close', () => resolve());
-            });
-        } catch (error) {
-            console.log('Error on MongoStore: save => ', error);
-        }
+        var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
+            bucketName: `multidevice-${options.session}`
+        });
+        return new Promise((resolve, reject) => {
+            fs.createReadStream(`${options.session}.zip`)
+                .pipe(bucket.openUploadStream(`${options.session}.zip`))
+                .on('error', err => reject(err))
+                .on('close', () => resolve());
+        });
     }
 
     async extract(options) {
-        try {
-            var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
-                bucketName: `multidevice-${options.session}`
-            });
-            return new Promise((resolve, reject) => {
-                bucket.openDownloadStreamByName(`${options.session}.zip`)
-                    .pipe(fs.createWriteStream(`RemoteAuth-${options.session}.zip`))
-                    .on('error', err => reject(err))
-                    .on('close', () => resolve());
-            });
-        } catch (error) {
-            console.log('Error on MongoStore: extract => ', error);
-        }
+        var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
+            bucketName: `multidevice-${options.session}`
+        });
+        return new Promise((resolve, reject) => {
+            bucket.openDownloadStreamByName(`${options.session}.zip`)
+                .pipe(fs.createWriteStream(`RemoteAuth-${options.session}.zip`))
+                .on('error', err => reject(err))
+                .on('close', () => resolve());
+        });
     }
 
     async delete(options) {
-        try {
-            var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
-                bucketName: `multidevice-${options.session}`
-            });
-            const documents = await bucket.find({
-                filename: `${options.session}.zip`
-            }).toArray();
-    
-            documents.map(async doc => {
-                return bucket.delete(doc._id);
-            });   
-        } catch (error) {
-            console.log('Error on MongoStore: delete => ', error);
-        }
+        var bucket = new this.mongoose.mongo.GridFSBucket(this.mongoose.connection.db, {
+            bucketName: `multidevice-${options.session}`
+        });
+        const documents = await bucket.find({
+            filename: `${options.session}.zip`
+        }).toArray();
+
+        documents.map(async doc => {
+            return bucket.delete(doc._id);
+        });   
     }
 }
 
