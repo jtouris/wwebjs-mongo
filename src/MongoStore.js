@@ -32,7 +32,7 @@ class MongoStore {
         });
         return new Promise((resolve, reject) => {
             bucket.openDownloadStreamByName(`${options.session}.zip`)
-                .pipe(fs.createWriteStream(`RemoteAuth-${options.session}.zip`))
+                .pipe(fs.createWriteStream(options.path))
                 .on('error', err => reject(err))
                 .on('close', () => resolve());
         });
