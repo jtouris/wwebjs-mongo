@@ -1,5 +1,7 @@
 # wwebjs-mongo
-A MongoDB plugin for whatsapp-web.js
+A MongoDB plugin for whatsapp-web.js! 
+
+Use MongoStore to save your WhatsApp MultiDevice session on a MongoDB Database.
 
 ## Quick Links
 
@@ -31,4 +33,12 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
     client.initialize();
 });
 
+```
+
+## Delete Remote Session
+
+How to force delete a specific remote session on the Database:
+
+```js
+await store.delete({session: 'yourSessionName'});
 ```
