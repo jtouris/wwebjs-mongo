@@ -1,6 +1,6 @@
 {
   "name": "wwebjs-mongo",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A MongoDB plugin for whatsapp-web.js library",
   "main": "index.js",
   "scripts": {
